@@ -1,0 +1,88 @@
+
+services:
+  backend:
+    container_name: creatoros.backend
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8000:8000
+
+    depends_on:
+      database:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl -fsSL http://localhost:8000/api/v1/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+    env_file:
+      - .env
+    environment:
+      - PORT=8000
+      - HOST=0.0.0.0
+      - POSTGRES_HOST=database
+      - REDIS_HOST=redis
+
+
+  migrations:
+    container_name: creatoros.migrations
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+
+    command: ["uv", "run", "alembic", "upgrade", "head"]
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: no
+
+  database:
+    container_name: creatoros.database
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/:rw
+
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
+    command: postgres -c 'max_connections=${POSTGRES_MAX_CONNECTIONS:-100}'
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS}
+    env_file:
+      - .env
+
+
+  redis:
+    container_name: creatoros.redis
+    image: redis:latest
+
+    ports:
+      - "${REDIS_PORT}:5432"
+
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+
+volumes:
+  postgres_data:
+    name: postgres_data

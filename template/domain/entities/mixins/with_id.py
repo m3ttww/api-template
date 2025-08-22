@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from src.domain.entities.base import Entity
+from template.domain.entities.base import Entity
 
 type IDType = UUID
 

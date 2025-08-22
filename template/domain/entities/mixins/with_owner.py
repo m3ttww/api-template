@@ -1,4 +1,4 @@
-from src.domain.entities.base import Entity
+from template.domain.entities.base import Entity
 
 from .with_id import IDType
 

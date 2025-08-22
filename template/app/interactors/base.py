@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from typing import Protocol
 
-from src.domain.entities.base import Entity
-from src.presentation.http.v1.common.dtos import DTO
+from template.domain.entities.base import Entity
+from template.presentation.http.v1.common.dtos import DTO
 
 
 class Command(DTO): ...

@@ -2,7 +2,7 @@ from abc import abstractmethod
 from typing import Protocol
 
 from template.domain.entities.base import Entity
-from template.presentation.http.v1.common.dtos import DTO
+from template.internal.tools.dto import DTO
 
 
 class Command(DTO): ...

@@ -12,4 +12,5 @@ dependencies = [
     "msgspec>=0.19.0",
     "pydantic-settings>=2.10.1",
     "sqlalchemy>=2.0.43",
+    "uuid-utils>=0.11.0",
 ]

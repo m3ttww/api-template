@@ -1,6 +1,7 @@
-from template.presentation.http.common.dtos.base import DTO
+from template.domain.entities.base import IDType
+from template.internal.tools.dto import DTO
 
 
 class PublicUser(DTO):
-    id: str
+    id: IDType
     login: str

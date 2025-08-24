@@ -1,4 +1,4 @@
-from typing import Any, Mapping, cast, get_args, get_origin
+from typing import cast, get_args, get_origin
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -14,16 +14,11 @@ class CRUDRepoImpl[E: Entity](CRUDRepo[E]):
     async def create(self, entity: E, /) -> None:
         self._session.add(entity)
 
-    async def update(self, id_: IDType, data: Mapping[str, Any], /) -> Option[E]:
-        entity = await self._session.get(self.entity, id_)
-        if entity:
-            for key, value in data.items():
-                field = getattr(entity, key)
-                if not field:
-                    raise ValueError(f"Field {key} not found in entity {entity}")
-                setattr(entity, key, value)
+    async def update(self, entity: E, /) -> Option[E]:
+        entity_exits = await self._session.get(self.entity, entity.id)
+        if entity_exits:
             await self._session.merge(entity)
-        return Option(entity)
+        return Option(entity_exits)
 
     async def get_by_id(self, id_: IDType, /) -> Option[E]:
         return Option(await self._session.get(self.entity, id_))

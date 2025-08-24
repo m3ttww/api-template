@@ -1,6 +1,5 @@
-from template.domain.entities.base import Entity
+from template.domain.entities.base import Entity, IDType
 
-from .with_id import IDType
 
 
 class WithOwner(Entity):

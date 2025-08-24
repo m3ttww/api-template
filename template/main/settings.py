@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     POSTGRES_PORT: str
     POSTGRES_DB: str
 
+    POSTGRES_POOL_SIZE: int
+    POSTGRES_MAX_OVERFLOW: int
+
 
     def get_postgres_url(self) -> str:
         return f"postgresql+{self.POSTGRES_DRIVER}://{self.POSTGRES_USER}:{self.POSTGRES_PASS}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"

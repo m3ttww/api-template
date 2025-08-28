@@ -6,6 +6,7 @@ from template.app.interfaces.repos.gateway import RepoGateway
 from template.app.interfaces.repos.transaction_manager import TransactionManager
 from template.app.interfaces.security.hasher import Hasher
 from template.domain.entities.user import User
+from template.presentation.http.common.dtos.user import PublicUser
 
 
 class CreateUserCommand(Command):
@@ -14,12 +15,12 @@ class CreateUserCommand(Command):
 
 
 @handler
-class CreateUserInteractor(Interactor[CreateUserCommand, User]):
+class CreateUserInteractor(Interactor[CreateUserCommand, PublicUser]):
     repo_gateway: RepoGateway
     password_hasher: Hasher
     transaction_manager: TransactionManager
 
-    async def _handle(self, cmd: CreateUserCommand) -> User:
+    async def _handle(self, cmd: CreateUserCommand) -> PublicUser:
         user = User(
             id=uuid4(),
             login=cmd.login,
@@ -28,4 +29,4 @@ class CreateUserInteractor(Interactor[CreateUserCommand, User]):
         user.validate_plain_password(cmd.password)
         async with self.transaction_manager:
             await self.repo_gateway.user().create(user)
-        return user
+        return PublicUser.from_(user)

@@ -1,17 +1,19 @@
-from typing import Annotated
+from dishka import FromDishka 
+from fastapi import APIRouter, status
 
-from fastapi import APIRouter, Depends, status
-from template.presentation.http.v1.common import dtos
+from template.app.interactors.users.create import CreateUserCommand, CreateUserInteractor
+from template.presentation.http.common import dtos
 
 user_router = APIRouter(prefix="/users", tags=["User"])
 
 
 @user_router.post(
     "",
-    status_code=status.HTTP_200_OK,
+    description="Create a new user",
+    status_code=status.HTTP_201_CREATED,
 )
 async def create_user_endpoint(
-    body: dtos.CreateUser,
-    interactor: Annotated[InteractorProtocol, Depends()],
+    body: CreateUserCommand,
+    interactor: FromDishka[CreateUserInteractor],
 ) -> dtos.PublicUser:
     return await interactor(body)

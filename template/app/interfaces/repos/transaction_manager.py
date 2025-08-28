@@ -21,6 +21,9 @@ class TransactionManager(Protocol):
     @abstractmethod
     async def is_in_transaction(self) -> bool: ...
 
+    @abstractmethod
+    async def flush(self) -> None: ...
+
 
     async def __aexit__(
         self,

@@ -1,8 +1,9 @@
 from functools import lru_cache
 from typing import Literal
 
-from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
+
+from template.main.decoder import decode_env
 
 
 class APIConfig(BaseSettings):
@@ -10,7 +11,8 @@ class APIConfig(BaseSettings):
     DESCRIPTION: str
     VERSION: str
     DEBUG: bool
-
+    HOST: str
+    PORT: int
     SCALAR_VERSION: str
     OPENAPI_PATH: str
     OPENAPI_EXISTS: bool
@@ -31,8 +33,3 @@ class APIConfig(BaseSettings):
 @lru_cache
 def load_api_config() -> APIConfig:
     return decode_env(APIConfig)
-
-
-def decode_env[S: BaseSettings](type_: type[S]) -> S:
-    load_dotenv(override=True)
-    return type_()

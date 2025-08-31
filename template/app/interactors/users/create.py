@@ -20,7 +20,7 @@ class CreateUserInteractor(Interactor[CreateUserCommand, PublicUser]):
     password_hasher: Hasher
     transaction_manager: TransactionManager
 
-    async def _handle(self, cmd: CreateUserCommand) -> PublicUser:
+    async def _execute(self, cmd: CreateUserCommand) -> PublicUser:
         user = User(
             id=uuid4(),
             login=cmd.login,

@@ -1,19 +1,21 @@
-from dishka import FromDishka 
-from fastapi import APIRouter, status
-
-from template.app.interactors.users.create import CreateUserCommand, CreateUserInteractor
+from litestar import Controller, post
+from litestar.status_codes import HTTP_201_CREATED
+from dishka import FromDishka
+from template.app.interactors.users.create import (
+    CreateUserCommand,
+    CreateUserInteractor,
+)
 from template.presentation.http.common import dtos
 
-user_router = APIRouter(prefix="/users", tags=["User"])
 
+class UserController(Controller):
+    path = "/users"
+    tags = ["User"]
 
-@user_router.post(
-    "",
-    description="Create a new user",
-    status_code=status.HTTP_201_CREATED,
-)
-async def create_user_endpoint(
-    body: CreateUserCommand,
-    interactor: FromDishka[CreateUserInteractor],
-) -> dtos.PublicUser:
-    return await interactor(body)
+    @post(summary="Create a new user", status_code=HTTP_201_CREATED)
+    async def create_user_endpoint(
+        self,
+        data: CreateUserCommand,
+        interactor: FromDishka[CreateUserInteractor],
+    ) -> dtos.PublicUser:
+        return await interactor(data)

@@ -2,7 +2,7 @@ from functools import lru_cache
 from typing import Literal
 
 from pydantic_settings import BaseSettings
-
+from litestar.types import Method
 from template.main.decoder import decode_env
 
 
@@ -19,15 +19,14 @@ class APIConfig(BaseSettings):
 
     CORS_ALLOW_ORIGINS: list[str]
     CORS_ALLOW_HEADERS: list[str]
-    CORS_ALLOW_METHODS: list[str | Literal["*"]]
+    CORS_ALLOW_METHODS: list[Method | Literal["*"]]
     CORS_EXPOSE_HEADERS: list[str]
     CORS_MAX_AGE: int
 
-    SESSION_STORE_KEY: str
-    SECURE: bool
-    HTTPONLY: bool
-    SAMESITE: Literal["lax", "strict", "none"]
-    MAX_AGE: int
+    # SECURE: bool
+    # HTTPONLY: bool
+    # SAMESITE: Literal["lax", "strict", "none"]
+    # MAX_AGE: int
 
 
 @lru_cache

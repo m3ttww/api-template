@@ -1,6 +1,6 @@
 from dishka import AsyncContainer, Provider, make_async_container
 
-from template.main.ios import get_providers
+from template.main.ios.providers import get_providers
 from template.main.settings import Settings
 
 

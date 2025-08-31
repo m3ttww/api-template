@@ -24,7 +24,6 @@ class TransactionManager(Protocol):
     @abstractmethod
     async def flush(self) -> None: ...
 
-
     async def __aexit__(
         self,
         exc_type: type[BaseException] | None,

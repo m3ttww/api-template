@@ -1,6 +1,8 @@
 from functools import lru_cache
-from dotenv import load_dotenv
+
 from pydantic_settings import BaseSettings
+
+from template.main.decoder import decode_env
 
 
 class Settings(BaseSettings):
@@ -14,6 +16,7 @@ class Settings(BaseSettings):
     POSTGRES_POOL_SIZE: int
     POSTGRES_MAX_OVERFLOW: int
 
+    LOG_LEVEL: str
 
     def get_postgres_url(self) -> str:
         return f"postgresql+{self.POSTGRES_DRIVER}://{self.POSTGRES_USER}:{self.POSTGRES_PASS}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
@@ -22,8 +25,3 @@ class Settings(BaseSettings):
 @lru_cache
 def load_settings() -> Settings:
     return decode_env(Settings)
-
-
-def decode_env[S: BaseSettings](type_: type[S]) -> S:
-    load_dotenv(override=True)
-    return type_()

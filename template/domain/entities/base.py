@@ -11,7 +11,7 @@ IDType = uuid.UUID
 
 @dataclass_transform()
 def entity[E](cls: type[E]) -> type[E]:
-    return dataclass(slots=True)(cls)
+    return dataclass()(cls)
 
 
 @entity

@@ -37,3 +37,6 @@ class TransactionManagerImpl(TransactionManager):
     async def close_transaction(self) -> None:
         if await self.is_in_transaction():
             await self.session.close()
+
+    async def flush(self) -> None:
+        await self.session.flush()

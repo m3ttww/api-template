@@ -8,7 +8,9 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
+from template.infra.persistence.psql import tables  # noqa: F401
 from template.main.settings import Settings
+
 
 class PostgresProvider(Provider):
     scope = Scope.REQUEST

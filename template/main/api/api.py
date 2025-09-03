@@ -10,6 +10,7 @@ from template.main.api.openapi import create_openapi
 from template.main.ios.container import create_container
 from template.main.settings import load_settings
 from template.presentation.http import create_router
+from template.presentation.http.v1.exceptions.mapper import exception_mapper
 
 
 def create_api(container: AsyncContainer, config: APIConfig) -> Litestar:
@@ -27,7 +28,7 @@ def create_api(container: AsyncContainer, config: APIConfig) -> Litestar:
         route_handlers=[create_router()],
         openapi_config=create_openapi(config),
         cors_config=create_cors(config),
-        # exception_handlers=exception_map(),
+        exception_handlers=exception_mapper(),
         logging_config=logging_config,
     )
 

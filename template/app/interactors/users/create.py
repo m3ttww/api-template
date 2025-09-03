@@ -1,12 +1,12 @@
 from uuid_utils.compat import uuid4
 
+from template.app.dtos.user import PublicUser
 from template.app.interactors.base import Command, Interactor
 from template.app.interactors.transform import handler
 from template.app.interfaces.repos.gateway import RepoGateway
 from template.app.interfaces.repos.transaction_manager import TransactionManager
 from template.app.interfaces.security.hasher import Hasher
 from template.domain.entities.user import User
-from template.presentation.http.common.dtos.user import PublicUser
 
 
 class CreateUserCommand(Command):

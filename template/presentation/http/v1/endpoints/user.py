@@ -1,12 +1,11 @@
-from litestar import Controller, post
+from litestar import Controller, post, Request
 from litestar.status_codes import HTTP_201_CREATED
 from dishka import FromDishka
 from template.app.interactors.users.create import (
     CreateUserCommand,
     CreateUserInteractor,
 )
-from template.presentation.http.common import dtos
-
+from template.app import dtos
 
 class UserController(Controller):
     path = "/users"
@@ -16,6 +15,8 @@ class UserController(Controller):
     async def create_user_endpoint(
         self,
         data: CreateUserCommand,
+        request: Request,
         interactor: FromDishka[CreateUserInteractor],
     ) -> dtos.PublicUser:
+        request.state
         return await interactor(data)

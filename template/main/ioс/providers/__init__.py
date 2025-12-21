@@ -1,6 +1,6 @@
 from dishka import Provider
 
-from .handlers import HandlersProvider
+from .interactors import create_interactors_provider
 from .psql import PostgresProvider
 from .repos import ReposProvider
 from .security import SecurityProvider
@@ -11,7 +11,7 @@ def get_providers() -> list[Provider]:
         SecurityProvider(),
         PostgresProvider(),
         ReposProvider(),
-        HandlersProvider(),
+        create_interactors_provider(),
     ]
 
 

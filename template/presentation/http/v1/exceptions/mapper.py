@@ -10,5 +10,5 @@ from template.presentation.http.v1.exceptions.handlers import (
 def exception_mapper() -> ExceptionHandlersMap:
     return {
         InternalServerException: internal_server_exception_handler,
-        Exception: general_exception_handler,  # Catch all other exceptions
+        Exception: general_exception_handler,
     }

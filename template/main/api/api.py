@@ -7,7 +7,7 @@ from litestar.logging import LoggingConfig
 from template.main.api.config import APIConfig, load_api_config
 from template.main.api.cors import create_cors
 from template.main.api.openapi import create_openapi
-from template.main.ios.container import create_container
+from template.main.ioс.container import create_container
 from template.main.settings import load_settings
 from template.presentation.http import create_router
 from template.presentation.http.v1.exceptions.mapper import exception_mapper

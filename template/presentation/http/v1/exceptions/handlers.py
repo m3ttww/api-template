@@ -20,14 +20,13 @@ def internal_server_exception_handler(
             "ticket": ticket,
             "path": request.url.path,
             "method": request.method,
-        }
+        },
     )
 
     content = {
         "ticket": ticket,
-        "error": f"{type(exc).__name__}: {str(exc)}",
-        "path": request.url.path,
-        "method": request.method,
+        "error": f"{type(exc).__name__}",
+
     }
 
     return Response(
@@ -46,14 +45,12 @@ def general_exception_handler(request: Request, exc: Exception) -> Response:
             "ticket": ticket,
             "path": request.url.path,
             "method": request.method,
-        }
+        },
     )
 
     content = {
         "ticket": ticket,
-        "error": f"{type(exc).__name__}: {str(exc)}",
-        "path": request.url.path,
-        "method": request.method,
+        "error": f"{type(exc).__name__}",
     }
 
     return Response(

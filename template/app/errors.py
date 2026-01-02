@@ -1,40 +1,53 @@
 from typing import Any
 
+from template.domain.errors import InternalError, PublicError
+
 
 class ApplicationError(Exception): ...
 
 
-class DetailedError(ApplicationError):
+class PublicDetailedError(ApplicationError, PublicError):
     def __init__(
         self,
         message: str,
         status_code: int,
         notes: dict[str, Any] | None = None,
     ) -> None:
-        self.message = message
+        super().__init__(message)
         self.status_code = status_code
         self.notes = notes
 
     def __str__(self) -> str:
         return self.message
 
-
-class NotFoundError(DetailedError): ...
-
-
-class UnauthorizedError(DetailedError): ...
-
-
-class ForbiddenError(DetailedError): ...
-
-
-class InternalServerError(DetailedError): ...
-
-
-class BadRequestError(DetailedError): ...
+class InternalDetailedError(ApplicationError, InternalError):
+    def __init__(
+        self,
+        message: str,
+        status_code: int,
+        notes: dict[str, Any] | None = None,
+    ) -> None:
+        super().__init__(message)
+        self.status_code = status_code
+        self.notes = notes
 
 
-class BalanceTooLowError(DetailedError): ...
+class NotFoundError(PublicDetailedError): ...
 
 
-class ConflictError(DetailedError): ...
+class UnauthorizedError(PublicDetailedError): ...
+
+
+class ForbiddenError(PublicDetailedError): ...
+
+
+class InternalServerError(PublicDetailedError): ...
+
+
+class BadRequestError(PublicDetailedError): ...
+
+
+class BalanceTooLowError(PublicDetailedError): ...
+
+
+class ConflictError(PublicDetailedError): ...

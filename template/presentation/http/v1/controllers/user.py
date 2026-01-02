@@ -1,6 +1,6 @@
 from litestar import Controller, post, Request
 from litestar.status_codes import HTTP_201_CREATED
-from dishka import FromDishka
+from template.internal.di import Depends
 from template.app.interactors.users.create import (
     CreateUserCommand,
     CreateUserInteractor,
@@ -16,7 +16,7 @@ class UserController(Controller):
         self,
         data: CreateUserCommand,
         request: Request,
-        interactor: FromDishka[CreateUserInteractor],
+        interactor: Depends[CreateUserInteractor],
     ) -> dtos.PublicUser:
         request.state
         return await interactor(data)

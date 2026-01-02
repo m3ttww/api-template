@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 from typing import Any, dataclass_transform
 
 import uuid_utils.compat as uuid
-from msgspec import to_builtins
 
 IDType = uuid.UUID
 
@@ -19,4 +18,4 @@ class Entity:
     id: IDType
 
     def asdict(self) -> dict[str, Any]:
-        return to_builtins(self, str_keys=True)  # type: ignore[no-any-return]
+        return {f.name: getattr(self, f.name) for f in fields(self)}

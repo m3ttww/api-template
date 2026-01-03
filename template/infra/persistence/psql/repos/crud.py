@@ -8,10 +8,14 @@ from template.domain.entities.base import Entity, IDType
 from template.infra.option import Option
 
 
-class CRUDRepoImpl[E: Entity](CRUDRepo[E]):
+class Repo:
+    __slots__ = ("_session",)
+
     def __init__(self, session: AsyncSession) -> None:
         self._session = session
 
+
+class CRUDRepoImpl[E: Entity](Repo, CRUDRepo[E]):
     async def create(self, entity: E, /) -> None:
         self._session.add(entity)
 
@@ -23,16 +27,14 @@ class CRUDRepoImpl[E: Entity](CRUDRepo[E]):
     async def get_by_id(self, id_: IDType, /) -> Option[E]:
         return Option(await self._session.get(self.entity, id_))
 
-    async def delete(self, id_: IDType, /) -> None:
-        entity = await self._session.get(self.entity, id_)
-        if entity:
-            await self._session.delete(entity)
+    async def delete(self, entity: E, /) -> None:
+        await self._session.delete(entity)
 
     @property
     def entity(self) -> type[E]:
         for base in self.__orig_bases__:  # type: ignore[attr-defined]
             cls = get_origin(base)
-            if issubclass(cls, CRUDRepo):
+            if cls and issubclass(cls, CRUDRepo):
                 break
         else:
             msg = "CRUDRepo not found"

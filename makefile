@@ -28,3 +28,14 @@ delete: stop
 
 logs:
 	docker compose -f ./docker-compose.yaml logs
+
+
+check:
+	uv run mypy .
+	uv run ruff check . && uv run ruff format
+
+switch_main:
+	git checkout main && git pull origin main
+
+switch_dev:
+	git checkout dev && git pull origin dev

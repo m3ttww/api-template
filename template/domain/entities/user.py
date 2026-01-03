@@ -41,12 +41,14 @@ class User(Entity):
     def validate_plain_password(self, password: str) -> None:
         if len(password) < MIN_PASSWORD_LENGTH:
             raise ValidationError(
-                f"must be at least {MIN_PASSWORD_LENGTH} characters long."
+                f"password must be at least {MIN_PASSWORD_LENGTH} characters long."
             )
         if len(password) > MAX_PASSWORD_LENGTH:
-            raise ValidationError(f"must be at most {MAX_PASSWORD_LENGTH} characters long.")
+            raise ValidationError(
+                f"password must be at most {MAX_PASSWORD_LENGTH} characters long."
+            )
         if re.match(SECURE_REGEX, password) is None:
             raise ValidationError(
-                "must contain at least one uppercase letter, one"
+                "password must contain at least one uppercase letter, one"
                 "lowercase letter, one number, and one special character.",
             )

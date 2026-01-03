@@ -20,6 +20,7 @@ class PublicDetailedError(ApplicationError, PublicError):
     def __str__(self) -> str:
         return self.message
 
+
 class InternalDetailedError(ApplicationError, InternalError):
     def __init__(
         self,

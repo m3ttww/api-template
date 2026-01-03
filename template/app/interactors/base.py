@@ -5,18 +5,18 @@ from template.domain.entities.base import Entity
 from template.internal.tools.dto import DTO
 
 
-class Command(DTO): ...
+class Form(DTO): ...
 
 
-class Interactor[C: Command, R: DTO | Entity | None](Protocol):
-    command_cls: ClassVar[type[Command]]
+class Interactor[F: Form, R: DTO | Entity | None](Protocol):
+    form_cls: ClassVar[type[Form]]
 
     def __init_subclass__(cls, /) -> None:
-        cls.command_cls = get_args(cls.__orig_bases__[-1])[0]  # type: ignore[attr-defined]
+        cls.form_cls = get_args(cls.__orig_bases__[-1])[0]  # type: ignore[attr-defined]
 
-    async def __call__(self, cmd: C) -> R:
-        return await self._execute(cmd)
+    async def __call__(self, form: F) -> R:
+        return await self._execute(form)
 
     @abstractmethod
-    async def _execute(self, cmd: C, /) -> R:
+    async def _execute(self, form: F, /) -> R:
         raise NotImplementedError

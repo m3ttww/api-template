@@ -5,7 +5,7 @@ start:
 
 
 run:
-	uv run -m src
+	uv run -m template
 
 
 migrate:
@@ -33,6 +33,7 @@ logs:
 check:
 	uv run mypy .
 	uv run ruff check . && uv run ruff format
+	uv run nox
 
 switch_main:
 	git checkout main && git pull origin main
